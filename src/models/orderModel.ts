@@ -26,10 +26,19 @@ const orderSchema = new Schema<IOrder>(
         required: true,
         min: 0 
     },
+    status: {
+        type: String,
+        enum: ["pending", "completed", "cancelled"],
+        default: "pending"
+    },
+    orderDate: {
+        type: Date,
+        default: Date.now
+    }
   },
   { 
     timestamps: true 
 }
 );
 
-export default mongoose.model<IOrder>("Order", orderSchema);
+export const Order = mongoose.model<IOrder>('Order', orderSchema);
