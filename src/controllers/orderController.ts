@@ -25,38 +25,36 @@ export const createOrder = async (
         }
 };
 
-    export const getUserOrders = async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        try {
-            const { userId } = req.params as { userId: string };
+export const getUserOrders = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const { userId } = req.params as { userId: string };
+        const orders = await orderService.getOrderByUser(userId);
 
-            const orders = await orderService.getOrderByUser(userId);
+        res.status(200).json({
+            success: true,
+            message: "Orders retrieved successfully",
+            data: orders,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve orders",
+            error: (error as Error).message,
+        });
+    }
+};
 
-            res.status(200).json({
-                success: true,
-                message: "Orders retrieved successfully",
-                data: orders,
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: "Failed to retrieve orders",
-                error: (error as Error).message,
-            });
-        }
-    };
 
 export const getOrderById = async (
     req: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const { orderId } = req.params as { orderId: string };  
-
+        const { orderId } = req.params as { orderId: string };
         const order = await orderService.getOrderById(orderId);
-
         if (!order) {
             res.status(404).json({
                 success: false,
@@ -64,15 +62,15 @@ export const getOrderById = async (
             });
             return;
         }
-        
         res.status(200).json({
-            success:true,
+            success: true,
+            message: "Order retrieved successfully",
             data: order,
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch order",
+            message: "Failed to retrieve order",
             error: (error as Error).message,
         });
     }
@@ -80,13 +78,11 @@ export const getOrderById = async (
 
 export const cancelOrder = async (
     req: Request,
-    res: Response
+    res: Response   
 ): Promise<void> => {
     try {
         const { orderId } = req.params as { orderId: string };
-
         const order = await orderService.cancelOrder(orderId);
-
         if (!order) {
             res.status(404).json({
                 success: false,
@@ -94,13 +90,12 @@ export const cancelOrder = async (
             });
             return;
         }
-            res.status(200).json({
-                success: true,
-                message: "Order cancelled successfully",
-                data: order,
-            });
-
-    } catch(error) {
+        res.status(200).json({
+            success: true,
+            message: "Order cancelled successfully",
+            data: order,
+        });
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Failed to cancel order",

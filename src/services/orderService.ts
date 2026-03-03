@@ -13,12 +13,13 @@ export const getOrderByUser = async (userId: string) : Promise<IOrder[]> => {
     return await Order.find({ userId });
 };
 
+
 export const getOrderById = async (orderId: string) : Promise<IOrder | null> => {
-    return await Order.findById(orderId);
+    return await Order.findOne({orderId});
 };
 
 export const cancelOrder = async (orderId: string) : Promise<IOrder | null> => {
-    return await Order.findByIdAndUpdate(
+    return await Order.findOneAndUpdate(
         { orderId },
         { status: "cancelled" },
         { new: true }
