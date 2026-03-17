@@ -16,8 +16,6 @@ export interface IOrder extends Document {
 
 export interface CreateOrderDTO {
   userId: string;
-  orderId: string;
   bookId: string;
   quantity: number;
-  totalPrice: number;
 }

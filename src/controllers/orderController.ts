@@ -9,18 +9,18 @@ export const createOrder = async (
     try {
         const orderData: CreateOrderDTO = req.body;
 
-        const orcer = await orderService.createOrder(orderData);
+        const order = await orderService.createOrder(orderData);
 
         res.status(201).json({
             success: true,
             message: "Order created successfully",
-            data: orcer,
+            data: order,
         });
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
             success: false,
             message: "Failed to create order",
-            error: (error as Error).message,
+            error: error?.message || "Unknown error",
         });
         }
 };

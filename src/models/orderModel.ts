@@ -19,12 +19,12 @@ const orderSchema = new Schema<IOrder>(
     quantity: { 
         type: Number, 
         required: true,
-        min: 1 
+        min: 1, 
     },
     totalPrice: { 
         type: Number, 
         required: true,
-        min: 0 
+        min: 0, 
     },
     status: {
         type: String,
