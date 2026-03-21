@@ -32,12 +32,6 @@ export const cancelOrder = async (orderId: string) : Promise<IOrder | null> => {
 
 export const createOrder = async (orderData: CreateOrderDTO): Promise<IOrder> => {
 
-    /*const user = await getUserById(orderData.userId);
-    console.log("User response:", user);
-    if (!user) {
-        throw new Error("User not found");
-    }
-
     const book = await getBookById(orderData.bookId);
     console.log("Book response:", book);
     if (!book) {
@@ -48,11 +42,15 @@ export const createOrder = async (orderData: CreateOrderDTO): Promise<IOrder> =>
         throw new Error("Not enough stock available");
     }
 
-    const totalPrice = book.price * orderData.quantity;*/
-    const totalPrice = 100* orderData.quantity; // Placeholder for price calculation
+    const totalPrice = book.price * orderData.quantity;
+    //const totalPrice = 100* orderData.quantity; // Placeholder for price calculation
 
     const order = new Order({
-        ...orderData,
+        userId: orderData.userId,
+        bookId: orderData.bookId,
+        //orderId: uuidv4(),
+        orderId: `ORD-${Date.now()}`,
+        quantity: orderData.quantity,
         totalPrice,
         status: "pending",
         orderDate: new Date(),
@@ -60,12 +58,11 @@ export const createOrder = async (orderData: CreateOrderDTO): Promise<IOrder> =>
 
     const savedOrder = await order.save();
 
-    /*await sendOrderConfirmation({
-        userId: user.userId,
-        email: user.email,
-        orderId: savedOrder.orderId,
-        bookTitle: book.title,
-    });*/
+    await sendOrderConfirmation({
+        userId: orderData.userId,
+        message: `Order confirmed for ${book.title}`,
+        type: "orderConfirm"
+    });
 
     return savedOrder;
 };

@@ -1,11 +1,11 @@
 export interface UserInfo {
-    userId: string;
-    name: string;
+    _id: string;
+    username: string;
     email: string;
 }
 
 export interface BookInfo {
-    bookId: string;
+    _id: string;
     title: string;
     price: number;
     stock: number;
