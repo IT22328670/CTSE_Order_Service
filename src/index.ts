@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
   res.send('Order Service is running!');
 });*/
 
-app.use('/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 
 const PORT = process.env.PORT || 5003;
 

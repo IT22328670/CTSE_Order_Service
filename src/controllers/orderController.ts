@@ -8,8 +8,9 @@ export const createOrder = async (
 ): Promise<void> => {
     try {
         const orderData: CreateOrderDTO = req.body;
+        const authToken = req.headers.authorization;
 
-        const order = await orderService.createOrder(orderData);
+        const order = await orderService.createOrder(orderData, authToken);
 
         res.status(201).json({
             success: true,
