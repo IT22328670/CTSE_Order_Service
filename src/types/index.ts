@@ -8,5 +8,5 @@ export interface BookInfo {
     _id: string;
     title: string;
     price: number;
-    stock: number;
+    stockCount: number;
 }

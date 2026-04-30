@@ -30,15 +30,15 @@ export const cancelOrder = async (orderId: string) : Promise<IOrder | null> => {
     );
 };*/
 
-export const createOrder = async (orderData: CreateOrderDTO): Promise<IOrder> => {
+export const createOrder = async (orderData: CreateOrderDTO, authToken?: string): Promise<IOrder> => {
 
-    const book = await getBookById(orderData.bookId);
+    const book = await getBookById(orderData.bookId, authToken);
     console.log("Book response:", book);
     if (!book) {
         throw new Error("Book not found");
     }
 
-    if (book.stock < orderData.quantity) {
+    if (book.stockCount < orderData.quantity) {
         throw new Error("Not enough stock available");
     }
 
@@ -58,11 +58,15 @@ export const createOrder = async (orderData: CreateOrderDTO): Promise<IOrder> =>
 
     const savedOrder = await order.save();
 
-    await sendOrderConfirmation({
-        userId: orderData.userId,
-        message: `Order confirmed for ${book.title}`,
-        type: "orderConfirm"
-    });
+    try {
+        await sendOrderConfirmation({
+            userId: orderData.userId,
+            message: `Order confirmed for ${book.title}`,
+            type: "orderConfirm"
+        });
+    } catch (err) {
+        console.error("Failed to send order confirmation notification:", err);
+    }
 
     return savedOrder;
 };
