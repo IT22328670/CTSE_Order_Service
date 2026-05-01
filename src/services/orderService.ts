@@ -62,7 +62,7 @@ export const createOrder = async (orderData: CreateOrderDTO, authToken?: string)
         await sendOrderConfirmation({
             userId: orderData.userId,
             message: `Order confirmed for ${book.title}`,
-            type: "orderConfirm"
+            type: "OrderConfirm"
         });
     } catch (err) {
         console.error("Failed to send order confirmation notification:", err);
@@ -80,9 +80,23 @@ export const getOrderById = async (orderId: string): Promise<IOrder | null> => {
 };
 
 export const cancelOrder = async (orderId: string): Promise<IOrder | null> => {
-    return await Order.findOneAndUpdate(
+    const order = await Order.findOneAndUpdate(
         { orderId },
         { status: "cancelled" },
         { new: true }
     );
+    
+    if (order) {
+        try {
+            await sendOrderConfirmation({
+                userId: order.userId,
+                type: 'Cancellation',
+                message: 'Your order has been cancelled successfully.'
+            });
+        } catch (err) {
+            console.error("Failed to send cancellation notification:", err);
+        }
+    }
+    
+    return order;
 };
