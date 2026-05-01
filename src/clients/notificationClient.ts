@@ -1,4 +1,7 @@
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const API_GATEWAY_URL = process.env.API_GATEWAY_URL;
 

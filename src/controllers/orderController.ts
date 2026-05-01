@@ -21,7 +21,7 @@ export const createOrder = async (
         res.status(500).json({
             success: false,
             message: "Failed to create order",
-            error: error?.message || "Unknown error",
+            error: error?.message,
         });
         }
 };
