@@ -1,10 +1,10 @@
 import axios from "axios";
 import { BookInfo } from "../types/index";
 
-const CATALOG_SERVICE_URL = process.env.CATALOG_SERVICE_URL || "http://localhost:5000/api";
+const API_GATEWAY_URL = process.env.API_GATEWAY_URL;
 
 export const getBookById = async (bookId: string, authToken?: string): Promise<BookInfo> => {
-    const response = await axios.get(`${CATALOG_SERVICE_URL}/books/${bookId}`, {
+    const response = await axios.get(`${API_GATEWAY_URL}/api/books/${bookId}`, {
     headers: {
       ...(authToken ? { Authorization: authToken } : {}),
     },

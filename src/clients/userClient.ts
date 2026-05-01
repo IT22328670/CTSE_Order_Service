@@ -1,9 +1,9 @@
 import axios from "axios";
 import { UserInfo } from "../types/index"
 
-const USER_SERVICE_URL = process.env.USER_SERVICE_URL || "http://localhost:5002";
+const API_GATEWAY_URL = process.env.API_GATEWAY_URL;
 
 export const getUserById = async (userId: string): Promise<UserInfo> => {
-    const response = await axios.get(`${USER_SERVICE_URL}/users/${userId}`);
+    const response = await axios.get(`${API_GATEWAY_URL}/api/users/${userId}`);
     return response.data;
 }

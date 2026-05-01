@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const NOTIFICATION_SERVICE_URL = process.env.NOTIFICATION_SERVICE_URL || "http://localhost:5004/notify";
+const API_GATEWAY_URL = process.env.API_GATEWAY_URL;
 
 export const sendOrderConfirmation = async (data: any) => {
-    await axios.post(`${NOTIFICATION_SERVICE_URL}/send`, data);
+    await axios.post(`${API_GATEWAY_URL}/notify/send`, data);
 }
